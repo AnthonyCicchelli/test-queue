@@ -5,6 +5,10 @@ Date: 2026-04-12
 
 # Assessment Simple Queue Test Cases v1
 
+This file defines the verification matrix only. It describes what to test for the current module package.
+
+Design notes, tradeoffs, and deviations from the original assessment prompt are documented separately in `TC_UAT_CHANGES.md`.
+
 ## Scope
 
 These test cases cover the public module in this repository:

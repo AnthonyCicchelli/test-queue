@@ -5,6 +5,10 @@ Date: 2026-04-12
 
 # Assessment Simple Queue Test Results v1
 
+This file records the outcome of the current verification run against `TEST_CASES.md`.
+
+It should be read together with `TC_UAT_CHANGES.md`, which explains implementation choices and any differences between the current module behavior and the original assessment wording.
+
 Test environment:
 
 - Magento 2.4.8-p3 at `luma.anthonycicchelli.com`
@@ -65,10 +69,10 @@ Test environment:
 | TC | Name | Pass | How |
 |----|------|------|-----|
 | [TC-22](https://github.com/AnthonyCicchelli/test-queue/blob/main/TEST_CASES.md#storefront-trigger-path) | Frontend storage config is forced on | YES | `curl` on PDP (`push-it-messenger-bag.html`) returned page source containing `"recently_viewed_product":{"requestConfig":{"syncUrl":"..."}` with `allowToSendRequest":1`. Other product types showed `null`. |
-| [TC-23](https://github.com/AnthonyCicchelli/test-queue/blob/main/TEST_CASES.md#storefront-trigger-path) | Product sync request fires on PDP load | YES | `curl -X POST` to `/catalog/product/frontend_action_synchronize/` with `type_id=recently_viewed_product` and valid `ids[0][product_id]=14` returned `[]` (success). Endpoint resolved and responded. |
+| [TC-23](https://github.com/AnthonyCicchelli/test-queue/blob/main/TEST_CASES.md#storefront-trigger-path) | Product sync request fires on PDP load | YES | Playwright browser navigation to the PDP triggered `POST /catalog/product/frontend_action_synchronize/` and returned HTTP `200`. The captured request body included `type_id=recently_viewed_product` and `product_id=14`. |
 | [TC-24](https://github.com/AnthonyCicchelli/test-queue/blob/main/TEST_CASES.md#storefront-trigger-path) | Valid recently viewed sync triggers publish | YES | Sent qualifying sync POST. `rabbitmqctl list_queues -p anthonycicchelli` showed queue went from 0 to 1. Consumer processed it. `var/log/consumer.log` gained new line: `Message published at 2026-04-12T21:23:57+00:00 and consumed at 2026-04-12T21:24:00+00:00`. |
 | [TC-25](https://github.com/AnthonyCicchelli/test-queue/blob/main/TEST_CASES.md#storefront-trigger-path) | Full-page cache remains on | YES | `bin/magento cache:status` showed `full_page: 1`. Storefront trigger path worked with FPC enabled — sync POST still triggered publish and consume. |
-| [TC-26](https://github.com/AnthonyCicchelli/test-queue/blob/main/TEST_CASES.md#storefront-trigger-path) | Repeated same-product page loads still fire sync requests | YES | Sent two consecutive sync POSTs for the same `product_id=14`. Both were accepted. `rabbitmqctl list_queues -p anthonycicchelli` showed queue at 2 messages. |
+| [TC-26](https://github.com/AnthonyCicchelli/test-queue/blob/main/TEST_CASES.md#storefront-trigger-path) | Repeated same-product page loads still fire sync requests | YES | Playwright loaded the same PDP twice. On both loads, the browser emitted `POST /catalog/product/frontend_action_synchronize/` with `type_id=recently_viewed_product` and `product_id=14`. |
 | [TC-27](https://github.com/AnthonyCicchelli/test-queue/blob/main/TEST_CASES.md#storefront-trigger-path) | Repeated PDP syncs are consumed | YES | Consumer processed both messages. `var/log/consumer.log` gained 2 new lines (from 15 to 17). Each line had the expected format. |
 
 ## Negative And Boundary Cases

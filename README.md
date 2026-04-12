@@ -7,6 +7,13 @@ Date: 2026-04-12
 
 This repository is the Magento 2 module package root for `Assessment_SimpleQueue`.
 
+## Documentation
+
+- `README.md` explains installation and day-one usage.
+- `TEST_CASES.md` defines the verification matrix.
+- `TEST_RESULTS.md` records the current test run against that matrix.
+- `TC_UAT_CHANGES.md` explains design choices, UAT notes, and any intentional deviations from the original assessment brief.
+
 ## What It Does
 
 The module publishes a message to Magento's message queue from three entry points:
@@ -20,6 +27,26 @@ Consumed messages are written to `var/log/consumer.log` in this format:
 `Message published at <timestamp> and consumed at <timestamp>`
 
 ## Install
+
+### Composer / Packagist install
+
+If the package is available in your Composer sources, install it with:
+
+```bash
+composer require assessment/module-simple-queue:dev-main
+php bin/magento module:enable Assessment_SimpleQueue
+php bin/magento setup:upgrade
+php bin/magento cache:clean
+```
+
+If your project uses production mode, also run:
+
+```bash
+php bin/magento setup:di:compile
+php bin/magento setup:static-content:deploy -f
+```
+
+### Manual drop-in install
 
 Copy this repository into your Magento project so the final path is:
 
@@ -87,3 +114,4 @@ tail -f var/log/consumer.log
 
 - The REST response is forced to plain text `OK`.
 - The storefront hook uses Magento's product frontend synchronize controller so it can work with full-page cache left enabled.
+- The design notes for that storefront choice live in `TC_UAT_CHANGES.md`.
