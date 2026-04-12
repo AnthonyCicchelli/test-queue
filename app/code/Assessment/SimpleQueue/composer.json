@@ -1,4 +1,8 @@
 {
+    "_comment": [
+        "Author: Anthony Cicchelli",
+        "Date: 2026-04-12"
+    ],
     "name": "assessment/module-simple-queue",
     "description": "Assessment Simple Queue Magento 2 module",
     "type": "magento2-module",

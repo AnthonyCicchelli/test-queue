@@ -1,3 +1,8 @@
+<!--
+Author: Anthony Cicchelli
+Date: 2026-04-12
+-->
+
 # Assessment Simple Queue
 
 This repository contains only the custom Magento 2 module located at `app/code/Assessment/SimpleQueue`.
