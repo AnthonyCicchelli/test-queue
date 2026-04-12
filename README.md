@@ -115,6 +115,50 @@ Then check:
 tail -f var/log/consumer.log
 ```
 
+## Consumer Log
+
+The consumer writes to:
+
+```text
+var/log/consumer.log
+```
+
+Expected log format:
+
+```text
+Message published at <timestamp> and consumed at <timestamp>
+```
+
+## RabbitMQ UI Verification
+
+If your Magento environment exposes the RabbitMQ management UI, you can verify the queued messages directly there.
+
+UAT example URL:
+
+```text
+https://luma.anthonycicchelli.com/rabbitmq/
+```
+
+Recommended verification flow:
+
+1. Log into the RabbitMQ management UI.
+2. Open `Queues and Streams`.
+3. Open the queue named `assessment.simple_queue`.
+4. Stop any active `assessment.simple_queue.consumer` processes before checking queue depth, otherwise messages may drain immediately.
+5. Publish one or more messages with either:
+   - `bin/magento simple-queue:publish`
+   - `POST /rest/V1/simple-queue/publish`
+6. Refresh the queue page and confirm the `Ready` count increases.
+7. Start the consumer again and confirm the queue drains back to `0`.
+
+If you want a clearly visible UI test instead of a single-message check, publish 50 messages with consumers stopped and confirm:
+
+```text
+Ready: 50
+Total: 50
+Consumers: 0
+```
+
 ## Notes
 
 - The REST response is forced to plain text `OK`.
