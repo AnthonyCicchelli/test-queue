@@ -11,7 +11,7 @@ This draft is intentionally separate from `README.md` and is meant for review be
 
 These test cases cover the public module in this repository:
 
-- `app/code/Assessment/SimpleQueue`
+- repository root module package
 
 The matrix focuses on:
 
@@ -32,7 +32,7 @@ The matrix focuses on:
 - Steps:
   - Inspect the repository tree.
 - Expected result:
-  - The repository contains `app/code/Assessment/SimpleQueue`, `.gitignore`, `README.md`, and this draft file.
+  - The repository contains the module package files at the repo root, plus `.gitignore`, `README.md`, and this draft file.
 - Evidence:
   - GitHub repo view or local file tree listing.
 
@@ -40,7 +40,7 @@ The matrix focuses on:
 
 - Objective: verify Magento recognizes the module without registration or autoload failures.
 - Steps:
-  - Copy the module into a Magento install at `app/code/Assessment/SimpleQueue`.
+  - Copy the repository contents into a Magento install at `app/code/Assessment/SimpleQueue`.
   - Run `bin/magento module:enable Assessment_SimpleQueue`.
 - Expected result:
   - The command succeeds and enables the module.
@@ -83,7 +83,7 @@ The matrix focuses on:
 
 - Objective: verify the async topic exists and points to the consumer handler.
 - Source:
-  - `app/code/Assessment/SimpleQueue/etc/communication.xml`
+  - `etc/communication.xml`
 - Expected result:
   - Topic `assessment.simple_queue.publish` is async and uses `Assessment\SimpleQueue\Model\Consumer::process`.
 - Evidence:
@@ -93,7 +93,7 @@ The matrix focuses on:
 
 - Objective: verify publishing uses Magento's AMQP transport.
 - Source:
-  - `app/code/Assessment/SimpleQueue/etc/queue_publisher.xml`
+  - `etc/queue_publisher.xml`
 - Expected result:
   - The topic publishes through `connection="amqp"` using exchange `magento`.
 - Evidence:
@@ -103,7 +103,7 @@ The matrix focuses on:
 
 - Objective: verify RabbitMQ queue creation and binding.
 - Source:
-  - `app/code/Assessment/SimpleQueue/etc/queue_topology.xml`
+  - `etc/queue_topology.xml`
 - Steps:
   - Run Magento setup.
   - Inspect RabbitMQ queues and bindings.
@@ -117,7 +117,7 @@ The matrix focuses on:
 
 - Objective: confirm the named consumer is available in Magento.
 - Source:
-  - `app/code/Assessment/SimpleQueue/etc/queue_consumer.xml`
+  - `etc/queue_consumer.xml`
 - Steps:
   - Start consumer with `bin/magento queue:consumers:start assessment.simple_queue.consumer`.
 - Expected result:
@@ -131,7 +131,7 @@ The matrix focuses on:
 
 - Objective: verify the module registers the console command.
 - Source:
-  - `app/code/Assessment/SimpleQueue/Console/Command/PublishCommand.php`
+  - `Console/Command/PublishCommand.php`
 - Steps:
   - Run `bin/magento list | grep simple-queue`.
 - Expected result:
@@ -180,7 +180,7 @@ The matrix focuses on:
 
 - Objective: verify the web API route is exposed.
 - Source:
-  - `app/code/Assessment/SimpleQueue/etc/webapi.xml`
+  - `etc/webapi.xml`
 - Steps:
   - Call `POST /rest/V1/simple-queue/publish`.
 - Expected result:
@@ -192,7 +192,7 @@ The matrix focuses on:
 
 - Objective: verify the REST response is plain text and not JSON-serialized.
 - Source:
-  - `app/code/Assessment/SimpleQueue/Plugin/PlainTextResponsePlugin.php`
+  - `Plugin/PlainTextResponsePlugin.php`
 - Steps:
   - Run `curl -i -X POST https://your-magento-host/rest/V1/simple-queue/publish`.
 - Expected result:
@@ -253,7 +253,7 @@ The matrix focuses on:
 
 - Objective: verify consumed messages are written in the required format.
 - Source:
-  - `app/code/Assessment/SimpleQueue/Model/Consumer.php`
+  - `Model/Consumer.php`
 - Expected result:
   - Each log line follows:
     - `Message published at <timestamp> and consumed at <timestamp>`
@@ -277,7 +277,7 @@ The matrix focuses on:
 
 - Objective: verify the module enables Magento's frontend sync request behavior for recently viewed products.
 - Source:
-  - `app/code/Assessment/SimpleQueue/Plugin/FrontendStorageManagerPlugin.php`
+  - `Plugin/FrontendStorageManagerPlugin.php`
 - Steps:
   - Load a product detail page.
   - Inspect rendered page config.
@@ -301,7 +301,7 @@ The matrix focuses on:
 
 - Objective: verify the module publishes when the qualifying storefront sync request completes.
 - Source:
-  - `app/code/Assessment/SimpleQueue/Plugin/FrontendActionSynchronizePlugin.php`
+  - `Plugin/FrontendActionSynchronizePlugin.php`
 - Steps:
   - Load a qualifying product detail page with consumer running.
   - Inspect consumer log.
@@ -406,10 +406,10 @@ The matrix focuses on:
 ## QA Checklist
 
 - [ ] Confirm the repo contains only the intended deliverables.
-- [ ] Confirm `app/code/Assessment/SimpleQueue` is present.
+- [ ] Confirm the module package files are present at the repository root.
 - [ ] Confirm top-level author/date metadata exists in every file.
 - [ ] Confirm PSR-12 check passes for PHP files.
-- [ ] Copy the module into a Magento project at `app/code/Assessment/SimpleQueue`.
+- [ ] Copy the repository contents into a Magento project at `app/code/Assessment/SimpleQueue`.
 - [ ] Run `bin/magento module:enable Assessment_SimpleQueue`.
 - [ ] Run `bin/magento setup:upgrade`.
 - [ ] Run `bin/magento cache:clean`.

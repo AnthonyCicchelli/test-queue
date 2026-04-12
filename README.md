@@ -5,7 +5,7 @@ Date: 2026-04-12
 
 # Assessment Simple Queue
 
-This repository contains only the custom Magento 2 module located at `app/code/Assessment/SimpleQueue`.
+This repository is the Magento 2 module package root for `Assessment_SimpleQueue`.
 
 ## What It Does
 
@@ -21,7 +21,7 @@ Consumed messages are written to `var/log/consumer.log` in this format:
 
 ## Install
 
-Copy the module into your Magento project so the final path is:
+Copy this repository into your Magento project so the final path is:
 
 ```text
 app/code/Assessment/SimpleQueue
