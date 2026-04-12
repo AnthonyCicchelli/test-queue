@@ -14,6 +14,11 @@ This repository is the Magento 2 module package root for `Assessment_SimpleQueue
 - `TEST_RESULTS.md` records the current test run against that matrix.
 - `TC_UAT_CHANGES.md` explains design choices, UAT notes, and any intentional deviations from the original assessment brief.
 
+## Package
+
+- Packagist: `assessment/module-simple-queue`
+- Packagist URL: `https://packagist.org/packages/assessment/module-simple-queue`
+
 ## What It Does
 
 The module publishes a message to Magento's message queue from three entry points:
