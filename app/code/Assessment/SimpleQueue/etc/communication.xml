@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Communication/etc/communication.xsd">
+    <topic name="assessment.simple_queue.publish" is_synchronous="false" request="string">
+        <handler name="assessment.simple_queue.publish.handler"
+                 type="Assessment\SimpleQueue\Model\Consumer"
+                 method="process"/>
+    </topic>
+</config>

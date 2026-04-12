@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework-message-queue:etc/topology.xsd">
+    <exchange name="magento" connection="amqp" type="topic">
+        <binding id="assessment.simple_queue.binding"
+                 topic="assessment.simple_queue.publish"
+                 destinationType="queue"
+                 destination="assessment.simple_queue"/>
+    </exchange>
+</config>

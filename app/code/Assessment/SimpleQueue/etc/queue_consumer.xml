@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework-message-queue:etc/consumer.xsd">
+    <consumer name="assessment.simple_queue.consumer"
+              queue="assessment.simple_queue"
+              connection="amqp"
+              handler="Assessment\SimpleQueue\Model\Consumer::process"/>
+</config>
