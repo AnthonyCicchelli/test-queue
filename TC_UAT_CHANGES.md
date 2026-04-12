@@ -55,3 +55,41 @@ The plugin approach hooks into Magento's built-in `frontend_action_synchronize` 
 ### Summary
 
 Observer works without FPC. Plugin works with or without FPC. Production runs FPC. Plugin was the right call.
+
+---
+
+## KISS: Keeping It Simple
+
+The module is 11 PHP files and 9 XML configs. No file exceeds 62 lines. Every class does one thing.
+
+### PHP Files
+
+| File | Lines | Purpose |
+|------|-------|---------|
+| `registration.php` | 16 | Module registration |
+| `Api/PublishManagementInterface.php` | 20 | REST service contract |
+| `Logger/Logger.php` | 21 | Custom logger channel |
+| `Logger/Handler.php` | 24 | Writes to `var/log/consumer.log` |
+| `Model/PublishManagement.php` | 27 | REST implementation, returns `OK` |
+| `Model/MessagePublisher.php` | 32 | Publishes `{"datetime": ...}` to queue |
+| `Console/Command/PublishCommand.php` | 39 | CLI command |
+| `Plugin/FrontendStorageManagerPlugin.php` | 40 | Forces `allowToSendRequest = 1` |
+| `Plugin/PlainTextResponsePlugin.php` | 41 | Forces REST response to `text/plain` |
+| `Model/Consumer.php` | 44 | Processes queue message, logs result |
+| `Plugin/FrontendActionSynchronizePlugin.php` | 62 | Publishes on qualifying PDP sync |
+
+### XML Configs
+
+| File | Lines | Purpose |
+|------|-------|---------|
+| `etc/queue_publisher.xml` | 11 | AMQP publisher wiring |
+| `etc/queue_consumer.xml` | 12 | Consumer registration |
+| `etc/queue_topology.xml` | 14 | Queue and binding |
+| `etc/communication.xml` | 13 | Topic definition |
+| `etc/webapi.xml` | 14 | REST route |
+| `etc/module.xml` | 15 | Module declaration and sequence |
+| `etc/frontend/di.xml` | 16 | Frontend plugins |
+| `etc/di.xml` | 17 | Interface preference, CLI registration |
+| `etc/webapi_rest/di.xml` | 12 | REST response plugin |
+
+No abstract classes. No factories. No unnecessary interfaces. Three entry points, one publisher, one consumer, one log file.
