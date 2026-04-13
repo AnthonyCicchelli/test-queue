@@ -7,6 +7,5 @@ Date: 2026-04-12
         xsi:noNamespaceSchemaLocation="urn:magento:framework-message-queue:etc/consumer.xsd">
     <consumer name="assessment.simple_queue.consumer"
               queue="assessment.simple_queue"
-              connection="amqp"
               handler="Assessment\SimpleQueue\Model\Consumer::process"/>
 </config>

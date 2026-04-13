@@ -5,7 +5,7 @@ Date: 2026-04-12
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework-message-queue:etc/publisher.xsd">
-    <publisher topic="assessment.simple_queue.publish">
-        <connection name="amqp" exchange="magento"/>
+    <publisher topic="assessment.simple_queue.publish" queue="assessment.simple_queue">
+        <connection name="amqp" exchange="assessment.simple_queue.exchange"/>
     </publisher>
 </config>

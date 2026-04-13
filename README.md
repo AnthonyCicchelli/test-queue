@@ -25,7 +25,7 @@ The module publishes a message to Magento's message queue from three entry point
 
 - CLI command: `bin/magento simple-queue:publish`
 - REST endpoint: `POST /rest/V1/simple-queue/publish`
-- Storefront product-view sync path: Magento's `catalog/product/frontend_action_synchronize` flow for `recently_viewed_product`
+- Storefront product page observer: Magento's `catalog_controller_product_view` event
 
 Consumed messages are written to `var/log/consumer.log` in this format:
 
@@ -151,6 +151,14 @@ Recommended verification flow:
 6. Refresh the queue page and confirm the `Ready` count increases.
 7. Start the consumer again and confirm the queue drains back to `0`.
 
+For public PDP UAT, use a cache-buster query parameter so each browser hit is easy to test as a fresh request. Example:
+
+```text
+https://luma.anthonycicchelli.com/catalog/product/view/id/14/s/push-it-messenger-bag/?tc=20260412-2005
+```
+
+Change the `tc` value on each run, then refresh the queue page and confirm the queue count increases.
+
 If you want a clearly visible UI test instead of a single-message check, publish 50 messages with consumers stopped and confirm:
 
 ```text
@@ -162,5 +170,5 @@ Consumers: 0
 ## Notes
 
 - The REST response is forced to plain text `OK`.
-- The storefront hook uses Magento's product frontend synchronize controller so it can work with full-page cache left enabled.
-- The design notes for that storefront choice live in `TC_UAT_CHANGES.md`.
+- The storefront hook uses a Magento product view observer.
+- The tested public UAT host was `https://luma.anthonycicchelli.com/`.

@@ -5,7 +5,13 @@ Date: 2026-04-12
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework-message-queue:etc/topology.xsd">
-    <exchange name="magento" connection="amqp" type="topic">
+    <exchange name="assessment.simple_queue.exchange" type="topic" connection="amqp">
+        <binding id="assessment.simple_queue.binding.amqp"
+                 topic="assessment.simple_queue.publish"
+                 destinationType="queue"
+                 destination="assessment.simple_queue"/>
+    </exchange>
+    <exchange name="assessment.simple_queue.exchange" type="topic" connection="db">
         <binding id="assessment.simple_queue.binding"
                  topic="assessment.simple_queue.publish"
                  destinationType="queue"
