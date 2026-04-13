@@ -129,6 +129,24 @@ Expected log format:
 Message published at <timestamp> and consumed at <timestamp>
 ```
 
+You can watch it live with:
+
+```bash
+tail -f var/log/consumer.log
+```
+
+Example output from the anthony UAT environment:
+
+```text
+[2026-04-12T23:34:36.040467+00:00] assessment_simple_queue.INFO: Message published at 2026-04-12T23:34:29+00:00 and consumed at 2026-04-12T23:34:36+00:00 [] []
+[2026-04-12T23:36:56.187552+00:00] assessment_simple_queue.INFO: Message published at 2026-04-12T23:36:44+00:00 and consumed at 2026-04-12T23:36:56+00:00 [] []
+[2026-04-12T23:38:38.444792+00:00] assessment_simple_queue.INFO: Message published at 2026-04-12T23:38:37+00:00 and consumed at 2026-04-12T23:38:38+00:00 [] []
+[2026-04-12T23:40:53.995933+00:00] assessment_simple_queue.INFO: Message published at 2026-04-12T23:40:53+00:00 and consumed at 2026-04-12T23:40:53+00:00 [] []
+[2026-04-12T23:40:53.998496+00:00] assessment_simple_queue.INFO: Message published at 2026-04-12T23:40:53+00:00 and consumed at 2026-04-12T23:40:53+00:00 [] []
+[2026-04-12T23:43:23.684897+00:00] assessment_simple_queue.INFO: Message published at 2026-04-12T23:43:23+00:00 and consumed at 2026-04-12T23:43:23+00:00 [] []
+[2026-04-13T02:03:13.681435+00:00] assessment_simple_queue.INFO: Message published at 2026-04-13T02:03:13+00:00 and consumed at 2026-04-13T02:03:13+00:00 [] []
+```
+
 ## RabbitMQ UI Verification
 
 If your Magento environment exposes the RabbitMQ management UI, you can verify the queued messages directly there.
