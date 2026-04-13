@@ -16,19 +16,49 @@ Public environment under test:
 - Queue page: [https://luma.anthonycicchelli.com/rabbitmq/#/queues/anthonycicchelli/assessment.simple_queue](https://luma.anthonycicchelli.com/rabbitmq/#/queues/anthonycicchelli/assessment.simple_queue)
 - Public PDP used for verification: [https://luma.anthonycicchelli.com/catalog/product/view/id/14/s/push-it-messenger-bag/](https://luma.anthonycicchelli.com/catalog/product/view/id/14/s/push-it-messenger-bag/)
 
-## Questions And Results
+## Public Review Checklist
 
-| Question | Result | Status |
-| --- | --- | --- |
-| Is `Assessment_SimpleQueue` enabled in the anthony Magento app? | `bin/magento module:status Assessment_SimpleQueue` reports enabled in `/Users/acicchelli/Code/anthonycicchelli-magento`. | PASS |
-| Does the CLI command exist and return `OK`? | `bin/magento simple-queue:publish` returns `OK`. | PASS |
-| Does the REST endpoint return `200 OK` with body `OK`? | `POST /rest/V1/simple-queue/publish` returns `HTTP 200` and body `OK`. | PASS |
-| Does RabbitMQ work publicly on `luma.anthonycicchelli.com`? | The public RabbitMQ UI loads, login works, and the anthony queue is visible on the anthony vhost. | PASS |
-| Does the queue hold visible messages publicly? | The public queue page shows visible queued messages with `Ready`, `Total`, and `Consumers` values. | PASS |
-| Does the public product detail page load successfully? | The public PDP for `Push It Messenger Bag` returns `HTTP 200` and renders the product page. | PASS |
-| Does the public product detail page publish to the same queue? | After purging the queue and loading the public PDP, broker-side queue depth increased to `1`. | PASS |
-| Does the consumer log the required format to `var/log/consumer.log`? | The consumer writes `Message published at ... and consumed at ...` lines to `var/log/consumer.log`. | PASS |
-| Does the public environment satisfy the original gist at a high level? | CLI, REST, RabbitMQ, consumer log, and public PDP-to-queue flow all passed on the anthony public host. | PASS |
+1. Storefront loads  
+Link: [https://luma.anthonycicchelli.com/](https://luma.anthonycicchelli.com/)  
+Result: `HTTP 200` on the public anthony Luma host.  
+Status: PASS
+
+2. RabbitMQ is reachable publicly  
+Link: [https://luma.anthonycicchelli.com/rabbitmq/](https://luma.anthonycicchelli.com/rabbitmq/)  
+Queue page: [https://luma.anthonycicchelli.com/rabbitmq/#/queues/anthonycicchelli/assessment.simple_queue](https://luma.anthonycicchelli.com/rabbitmq/#/queues/anthonycicchelli/assessment.simple_queue)  
+Login: `Test / Test123`  
+Result: the public RabbitMQ UI loads on the anthony host and the `assessment.simple_queue` queue is inspectable.  
+Status: PASS
+
+3. REST entry point works  
+Link: [https://luma.anthonycicchelli.com/rest/V1/simple-queue/publish](https://luma.anthonycicchelli.com/rest/V1/simple-queue/publish)  
+Result: `POST` returns `HTTP 200` with body `OK`. Broker-side queue depth moved from `19` to `21` during the public verification run.  
+Status: PASS
+
+4. CLI entry point works  
+Command:
+```bash
+cd /Users/acicchelli/Code/anthonycicchelli-magento
+/opt/homebrew/Cellar/php@8.3/8.3.30/bin/php -d memory_limit=2G bin/magento simple-queue:publish
+```
+Result: command returns `OK`. Broker-side queue depth moved from `18` to `19` during the verification run.  
+Status: PASS
+
+5. Product detail page entry point works  
+Link: [https://luma.anthonycicchelli.com/catalog/product/view/id/14/s/push-it-messenger-bag/](https://luma.anthonycicchelli.com/catalog/product/view/id/14/s/push-it-messenger-bag/)  
+Cache-buster example: [https://luma.anthonycicchelli.com/catalog/product/view/id/14/s/push-it-messenger-bag/?tc=doc-pass-check-2](https://luma.anthonycicchelli.com/catalog/product/view/id/14/s/push-it-messenger-bag/?tc=doc-pass-check-2)  
+Result: the public PDP returns `HTTP 200` and the broker-side queue depth moved from `19` to `21` during the public verification run.  
+Status: PASS
+
+6. Consumer log format matches the requirement  
+Log file: `/Users/acicchelli/Code/anthonycicchelli-magento/var/log/consumer.log`  
+Expected format: `Message published at [publish_time] and consumed at [consumed_time]`  
+Result: the anthony consumer writes the required line format to `var/log/consumer.log`.  
+Status: PASS
+
+7. Overall gist outcome on the public anthony host  
+Result: the public Luma host, RabbitMQ UI, CLI entry point, REST entry point, PDP entry point, and consumer log all passed the current review run.  
+Status: PASS
 
 ## Public Proof Images
 
