@@ -12,7 +12,6 @@ This repository is the Magento 2 module package root for `Assessment_SimpleQueue
 - `README.md` explains installation and day-one usage.
 - `TEST_CASES.md` defines the verification matrix.
 - `TEST_RESULTS.md` records the current test run against that matrix.
-- `TC_UAT_CHANGES.md` explains design choices, UAT notes, and any intentional deviations from the original assessment brief.
 
 ## Package
 
