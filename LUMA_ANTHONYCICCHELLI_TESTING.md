@@ -115,7 +115,7 @@ For the next run, change the query string, for example:
 Watch:
 
 ```bash
-tail -f /Users/acicchelli/Code/anthonycicchelli-magento/var/log/consumer.log
+tail -f /var/log/consumer.log
 ```
 
 Expected format:
