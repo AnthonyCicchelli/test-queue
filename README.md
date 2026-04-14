@@ -146,46 +146,7 @@ Example output from the anthony UAT environment:
 [2026-04-13T02:03:13.681435+00:00] assessment_simple_queue.INFO: Message published at 2026-04-13T02:03:13+00:00 and consumed at 2026-04-13T02:03:13+00:00 [] []
 ```
 
-## RabbitMQ UI Verification
-
-If your Magento environment exposes the RabbitMQ management UI, you can verify the queued messages directly there.
-
-UAT example URL:
-
-```text
-https://luma.anthonycicchelli.com/rabbitmq/
-```
-
-Recommended verification flow:
-
-1. Log into the RabbitMQ management UI.
-2. Open `Queues and Streams`.
-3. Open the queue named `assessment.simple_queue`.
-4. Stop any active `assessment.simple_queue.consumer` processes before checking queue depth, otherwise messages may drain immediately.
-5. Publish one or more messages with either:
-   - `bin/magento simple-queue:publish`
-   - `POST /rest/V1/simple-queue/publish`
-6. Refresh the queue page and confirm the `Ready` count increases.
-7. Start the consumer again and confirm the queue drains back to `0`.
-
-For public PDP UAT, use a cache-buster query parameter so each browser hit is easy to test as a fresh request. Example:
-
-```text
-https://luma.anthonycicchelli.com/catalog/product/view/id/14/s/push-it-messenger-bag/?tc=20260412-2005
-```
-
-Change the `tc` value on each run, then refresh the queue page and confirm the queue count increases.
-
-If you want a clearly visible UI test instead of a single-message check, publish 50 messages with consumers stopped and confirm:
-
-```text
-Ready: 50
-Total: 50
-Consumers: 0
-```
-
 ## Notes
 
 - The REST response is forced to plain text `OK`.
 - The storefront hook uses a Magento product view observer.
-- The tested public UAT host was `https://luma.anthonycicchelli.com/`.
