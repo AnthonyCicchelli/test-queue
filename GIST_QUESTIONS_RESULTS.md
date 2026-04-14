@@ -64,8 +64,8 @@ Status: PASS
 
 ### Public Product Detail Page
 
-![Public PDP](./images/luma-pdp-final-good.png)
+![Public PDP](./docs/images/luma-pdp-final-good.png)
 
 ### Public RabbitMQ Queue
 
-![Public RabbitMQ Queue](./images/luma-rabbitmq-queue-final-good.png)
+![Public RabbitMQ Queue](./docs/images/luma-rabbitmq-queue-final-good.png)
